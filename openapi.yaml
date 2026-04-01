@@ -18,6 +18,7 @@ paths:
           application/json:
             schema:
               type: array
+              maxItems: 100
               items:
                 $ref: '#/components/schemas/InputConfig'
             example:
@@ -36,6 +37,7 @@ paths:
             application/json:
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   success:
                     type: boolean
@@ -49,6 +51,7 @@ paths:
             application/json:
               schema:
                 type: object
+                additionalProperties: false
                 properties:
                   success:
                     type: boolean
@@ -66,6 +69,7 @@ paths:
             application/json:
               schema:
                 type: array
+                maxItems: 100
                 items:
                   $ref: '#/components/schemas/InputConfig'
               example:
@@ -92,6 +96,8 @@ components:
           type: integer
           description: Identificador único de la entrada.
           example: 1
+          minimum: 1
+          maximum: 1000
         logic_positive:
           type: boolean
           description: Lógica positiva (true) o inversa (false).
@@ -102,6 +108,7 @@ components:
           example: true
         linked_outputs:
           type: array
+          maxItems: 64
           description: Lista de salidas vinculadas (IDs o estructura).
           items:
             type: integer
