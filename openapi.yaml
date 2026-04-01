@@ -1,0 +1,108 @@
+openapi: 3.1.0
+info:
+  title: Configuración de Entradas
+  version: "1.0.0"
+  description: API para configurar el funcionamiento de las entradas mediante envío JSON.
+servers:
+  - url: http://localhost:8080
+    description: Servidor local de desarrollo
+
+paths:
+  /config:
+    put:
+      summary: Configurar entradas
+      description: Recibe un array de objetos para definir comportamiento de entradas.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/InputConfig'
+            example:
+              - id: 1
+                logic_positive: true
+                detection_always: true
+                linked_outputs: []
+              - id: 3
+                logic_positive: true
+                detection_always: false
+                linked_outputs: []
+      responses:
+        '200':
+          description: Configuración aplicada correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Configuración guardada"
+        '400':
+          description: JSON inválido o datos de configuración no válidos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  error:
+                    type: string
+                    example: "Entrada inválida"
+    get:
+      summary: Obtener configuración de entradas
+      description: Devuelve la configuración actual de entradas.
+      responses:
+        '200':
+          description: Configuración consultada correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InputConfig'
+              example:
+                - id: 1
+                  logic_positive: true
+                  detection_always: true
+                  linked_outputs: []
+                - id: 3
+                  logic_positive: true
+                  detection_always: false
+                  linked_outputs: []
+
+components:
+  schemas:
+    InputConfig:
+      type: object
+      required:
+        - id
+        - logic_positive
+        - detection_always
+        - linked_outputs
+      properties:
+        id:
+          type: integer
+          description: Identificador único de la entrada.
+          example: 1
+        logic_positive:
+          type: boolean
+          description: Lógica positiva (true) o inversa (false).
+          example: true
+        detection_always:
+          type: boolean
+          description: Indicador de detección continuada.
+          example: true
+        linked_outputs:
+          type: array
+          description: Lista de salidas vinculadas (IDs o estructura).
+          items:
+            type: integer
+          example: []
